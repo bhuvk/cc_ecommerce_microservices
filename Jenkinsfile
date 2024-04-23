@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_CREDENTIALS = credentials('Vppnsb@6922')
+        DOCKER_CREDENTIALS = credentials('Docker-Credentials')
     }
     stages {
         stage('Build') {
