@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_USERNAME = "bhuvan02"
         DOCKER_PASSWORD = 'Vppnsb@6922'
-        PATH = "//usr/local/bin/docker"
+        PATH = "/usr/local/bin/docker"
     }
     
     stages {
