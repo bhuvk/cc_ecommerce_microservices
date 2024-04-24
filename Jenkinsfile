@@ -1,14 +1,16 @@
 pipeline {
     agent any
     
+    environment {
+        DOCKER_USERNAME = "bhuvan02"
+        DOCKER_PASSWORD = 'Vppnsb@6922'
+        PATH = "//usr/local/bin/docker"
+    }
+    
     stages {
         stage('Build') {
             steps {
                 script {
-                    // Hardcoded Docker credentials
-                    def DOCKER_USERNAME = "bhuvan02"
-                    def DOCKER_PASSWORD = 'Vppnsb@6922'
-                    
                     // Build and push Docker images
                     sh 'docker build -t uc1 ./uc1'
                     sh 'docker login -u ' + DOCKER_USERNAME + ' -p ' + DOCKER_PASSWORD + ' docker.io'
@@ -34,9 +36,6 @@ pipeline {
             steps {
                 // Deploy Kubernetes resources
                 sh 'echo pods created successful'
-             
-               
-                
             }
         }
     }
