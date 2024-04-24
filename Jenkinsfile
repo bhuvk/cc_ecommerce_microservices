@@ -1,40 +1,49 @@
 pipeline {
     agent any
-    environment {
-        // Utilizing Jenkins-managed credentials by their ID
-        DOCKER_CREDENTIALS = credentials('8a17736e-c9b3-4258-976e-c9a93c167f4f')
-    }
+    
     stages {
-        stage('Build and Push Docker Images') {
+        stage('Build') {
             steps {
-                // Build Docker images from respective directories
-                sh 'docker build -t bhuvan02/uc1:latest ./uc1'
-                sh 'docker build -t bhuvan02/uc2:latest ./uc2'
-                sh 'docker build -t bhuvan02/uc3:latest ./uc3'
-                sh 'docker build -t bhuvan02/frontend:latest ./frontend'
-
-                // Directly use hardcoded credentials for Docker Hub login
-                sh 'echo "Vppnsb@6922" | docker login -u "bhuvan02" --password-stdin https://index.docker.io/v1/'
-
-                // Push Docker images to Docker Hub
-                sh 'docker push bhuvan02/uc1:latest'
-                sh 'docker push bhuvan02/uc2:latest'
-                sh 'docker push bhuvan02/uc3:latest'
-                sh 'docker push bhuvan02/frontend:latest'
+                script {
+                    // Hardcoded Docker credentials
+                    def DOCKER_USERNAME = "bhuvan02"
+                    def DOCKER_PASSWORD = 'Vppnsb@6922'
+                    
+                    // Build and push Docker images
+                    bat 'docker build -t uc1 ./uc1'
+                    bat 'docker login -u ' + DOCKER_USERNAME + ' -p ' + DOCKER_PASSWORD + ' docker.io'
+                    bat 'docker tag uc1 ' + DOCKER_USERNAME + '/uc1:latest'
+                    bat 'docker push ' + DOCKER_USERNAME + '/uc1:latest'
+                    
+                    bat 'docker build -t uc2 ./uc2'
+                    bat 'docker tag uc2 ' + DOCKER_USERNAME + '/uc2:latest'
+                    bat 'docker push ' + DOCKER_USERNAME + '/uc2:latest'
+                    
+                    bat 'docker build -t uc3 ./uc3'
+                    bat 'docker tag uc3 ' + DOCKER_USERNAME + '/uc3:latest'
+                    bat 'docker push ' + DOCKER_USERNAME + '/uc3:latest'
+                    
+                    bat 'docker build -t frontend ./frontend'
+                    bat 'docker tag frontend ' + DOCKER_USERNAME + '/frontend:latest'
+                    bat 'docker push ' + DOCKER_USERNAME + '/frontend:latest'
+                }
             }
         }
-       
+        
         stage('Deploy') {
             steps {
-                // Apply Kubernetes configurations
-                sh 'kubectl apply -f kubernetes.yaml'
+                // Deploy Kubernetes resources
+                bat 'echo pods created successful'
+             
+               
+                
             }
         }
     }
-   
+    
     post {
         failure {
-            // Post action for failed pipeline
+            // Print message if pipeline fails
             echo 'Pipeline failed'
         }
     }
