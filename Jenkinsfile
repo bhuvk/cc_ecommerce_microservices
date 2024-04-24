@@ -10,22 +10,22 @@ pipeline {
                     def DOCKER_PASSWORD = 'Vppnsb@6922'
                     
                     // Build and push Docker images
-                    bat 'docker build -t uc1 ./uc1'
-                    bat 'docker login -u ' + DOCKER_USERNAME + ' -p ' + DOCKER_PASSWORD + ' docker.io'
-                    bat 'docker tag uc1 ' + DOCKER_USERNAME + '/uc1:latest'
-                    bat 'docker push ' + DOCKER_USERNAME + '/uc1:latest'
+                    sh 'docker build -t uc1 ./uc1'
+                    sh 'docker login -u ' + DOCKER_USERNAME + ' -p ' + DOCKER_PASSWORD + ' docker.io'
+                    sh 'docker tag uc1 ' + DOCKER_USERNAME + '/uc1:latest'
+                    sh 'docker push ' + DOCKER_USERNAME + '/uc1:latest'
                     
-                    bat 'docker build -t uc2 ./uc2'
-                    bat 'docker tag uc2 ' + DOCKER_USERNAME + '/uc2:latest'
-                    bat 'docker push ' + DOCKER_USERNAME + '/uc2:latest'
+                    sh 'docker build -t uc2 ./uc2'
+                    sh 'docker tag uc2 ' + DOCKER_USERNAME + '/uc2:latest'
+                    sh 'docker push ' + DOCKER_USERNAME + '/uc2:latest'
                     
-                    bat 'docker build -t uc3 ./uc3'
-                    bat 'docker tag uc3 ' + DOCKER_USERNAME + '/uc3:latest'
-                    bat 'docker push ' + DOCKER_USERNAME + '/uc3:latest'
+                    sh 'docker build -t uc3 ./uc3'
+                    sh 'docker tag uc3 ' + DOCKER_USERNAME + '/uc3:latest'
+                    sh 'docker push ' + DOCKER_USERNAME + '/uc3:latest'
                     
-                    bat 'docker build -t frontend ./frontend'
-                    bat 'docker tag frontend ' + DOCKER_USERNAME + '/frontend:latest'
-                    bat 'docker push ' + DOCKER_USERNAME + '/frontend:latest'
+                    sh 'docker build -t frontend ./frontend'
+                    sh 'docker tag frontend ' + DOCKER_USERNAME + '/frontend:latest'
+                    sh 'docker push ' + DOCKER_USERNAME + '/frontend:latest'
                 }
             }
         }
@@ -33,7 +33,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 // Deploy Kubernetes resources
-                bat 'echo pods created successful'
+                sh 'echo pods created successful'
              
                
                 
